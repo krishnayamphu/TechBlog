@@ -5,7 +5,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Dashboard</title>
+    <title>Add Category</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
 </head>
 <body>
@@ -38,7 +38,19 @@
         </div>
         <div class="col-lg-10">
             <main>
-                <h1 class="text-center mb-4">Welcome to Dashboard</h1>
+                <h3 class="text-center mb-4">Category Detail</h3>
+                <form method="post" action="login">
+                    <c:if test="${err!=null}">
+                        <span class="d-block text-center text-danger mb-2">${err}</span>
+                    </c:if>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="name" placeholder="Name" required>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="slug" placeholder="Slug" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Post</button>
+                </form>
             </main>
         </div>
     </div>
