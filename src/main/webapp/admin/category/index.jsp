@@ -38,19 +38,33 @@
         </div>
         <div class="col-lg-10">
             <main>
-                <h3 class="text-center mb-4">Category Detail</h3>
-                <form method="post" action="add-category">
-                    <c:if test="${err!=null}">
-                        <span class="d-block text-center text-danger mb-2">${err}</span>
-                    </c:if>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" name="name" placeholder="Name" required>
-                    </div>
-                    <div class="mb-3">
-                        <input type="text" class="form-control" name="slug" placeholder="Slug" required>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </form>
+                <h3 class="text-center mb-4">Categories</h3>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Slug</th>
+                        <th scope="col">Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                   <c:forEach items="${categories}" var="category">
+                       <tr>
+                           <th scope="row">${category.id}</th>
+                           <td>${category.name}</td>
+                           <td>${category.slug}</td>
+                           <td class="d-flex gap-2">
+                               <a class="btn btn-primary" href="edit-category?id=${category.id}">Edit</a>
+                               <form action="category" method="post">
+                                   <input type="hidden" name="id" value="${category.id}">
+                                   <button type="submit" class="btn btn-danger">Delete</button>
+                               </form>
+                           </td>
+                       </tr>
+                   </c:forEach>
+                    </tbody>
+                </table>
             </main>
         </div>
     </div>

@@ -39,17 +39,18 @@
         <div class="col-lg-10">
             <main>
                 <h3 class="text-center mb-4">Category Detail</h3>
-                <form method="post" action="add-category">
+                <form method="post" action="edit-category">
                     <c:if test="${err!=null}">
                         <span class="d-block text-center text-danger mb-2">${err}</span>
                     </c:if>
+                    <input type="hidden" name="id" value="${category.id}">
                     <div class="mb-3">
-                        <input type="text" class="form-control" name="name" placeholder="Name" required>
+                        <input type="text" class="form-control" name="name" placeholder="Name" value="${category.name}" required>
                     </div>
                     <div class="mb-3">
-                        <input type="text" class="form-control" name="slug" placeholder="Slug" required>
+                        <input type="text" class="form-control" name="slug" placeholder="Slug" value="${category.slug}" required>
                     </div>
-                    <button type="submit" class="btn btn-primary">Add</button>
+                    <button type="submit" class="btn btn-primary">Update</button>
                 </form>
             </main>
         </div>

@@ -10,21 +10,26 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
-@WebServlet("/admin/add-category")
-public class CategoryAddController extends HttpServlet {
+@WebServlet("/admin/category")
+public class CategoryController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
-        req.getRequestDispatcher("category/create.jsp").forward(req, res);
+        try {
+            ArrayList<Category> categories=CategoryDAO.getCategories();
+            req.setAttribute("categories",categories);
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        req.getRequestDispatcher("category/index.jsp").forward(req, res);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        String name=req.getParameter("name");
-        String slug=req.getParameter("slug");
+        int id=Integer.parseInt(req.getParameter("id"));
         try {
-            CategoryDAO.save(new Category(name,slug));
+            CategoryDAO.delete(id);
             res.sendRedirect("category");
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
