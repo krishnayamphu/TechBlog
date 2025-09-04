@@ -1,4 +1,4 @@
-package com.example.techblog.controllers;
+package com.example.techblog.controllers.media;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

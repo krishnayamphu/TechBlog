@@ -1,5 +1,6 @@
-package com.example.techblog.controllers;
+package com.example.techblog.controllers.media;
 
+import com.example.techblog.util.MediaHelper;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -16,7 +17,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-@WebServlet("/media-upload")
+@WebServlet("/admin/media-upload")
 public class MediaUploadController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
