@@ -7,6 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Add Category</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <style>
+        @media (min-width: 576px) {
+            .modal-dialog {
+                max-width: 60%;
+            }
+        }
+    </style>
 </head>
 <body>
 <div class="container-fluid">
@@ -38,8 +45,12 @@
                     </div>
                     <div class="mb-3">
                         <label>Post Thumbnail</label>
-                        <input type="text" class="form-control" name="thumbnail" placeholder="default.jpg" value="default.jpg">
+                        <div class="input-group mb-3 mt-1">
+                            <button class="btn btn-outline-secondary" type="button" data-bs-toggle="modal" data-bs-target="#exampleModal">Browse</button>
+                            <input type="text" id="postImage" class="form-control" name="thumbnail" placeholder="default.jpg" value="default.jpg" readonly>
+                        </div>
                     </div>
+
                     <div class="mb-3">
                         <div class="form-check form-switch">
                             <input class="form-check-input" type="checkbox" role="switch" name="active" value="1" id="switchCheckDefault">
@@ -48,11 +59,43 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Add</button>
                 </form>
+
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row row-cols-6">
+                                    <c:forEach items="${files}" var="file">
+                                        <div class="col mb-4">
+                                            <div class="card">
+                                                <img style="width: 100%; height: 110px; object-fit: cover"
+                                                     src="/techblog/uploads/${file}" class="card-img-top" alt="" onclick="setPostThumb('${file}')" data-bs-dismiss="modal">
+                                            </div>
+                                        </div>
+                                    </c:forEach>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </main>
         </div>
     </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+<script>
+    function setPostThumb(name){
+        document.getElementById("postImage").value=name;
+    }
+</script>
 </body>
 </html>

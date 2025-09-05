@@ -1,7 +1,10 @@
 package com.example.techblog.controllers.admin;
 
 import com.example.techblog.dao.CategoryDAO;
+import com.example.techblog.dao.PostDAO;
 import com.example.techblog.models.Category;
+import com.example.techblog.models.Post;
+import com.example.techblog.util.MediaHelper;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,6 +22,7 @@ public class PostAddController extends HttpServlet {
         try {
             ArrayList<Category> categories = CategoryDAO.getCategories();
             req.setAttribute("categories", categories);
+            req.setAttribute("files", MediaHelper.getMediaFiles());
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
@@ -27,7 +31,7 @@ public class PostAddController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        String name = req.getParameter("title");
+        String title = req.getParameter("title");
         String slug = req.getParameter("slug");
         String content = req.getParameter("content");
         int category_id = Integer.parseInt(req.getParameter("category_id"));
@@ -38,13 +42,18 @@ public class PostAddController extends HttpServlet {
         if (activeParam != null && activeParam.equals("1")) {
             active = true;
         }
-
-        System.out.println(active);
-//        try {
-//            CategoryDAO.save(new Category(name,slug));
-//            res.sendRedirect("category");
-//        } catch (SQLException | ClassNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            Post post=new Post();
+            post.setTitle(title);
+            post.setSlug(slug);
+            post.setContent(content);
+            post.setCategoryId(category_id);
+            post.setThumbnail(thumbnail);
+            post.setActive(active);
+            PostDAO.save(post);
+            res.sendRedirect("posts");
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
