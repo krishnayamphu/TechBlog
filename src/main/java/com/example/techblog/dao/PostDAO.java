@@ -51,6 +51,49 @@ public class PostDAO {
         }
         return posts;
     }
+    public static ArrayList<Post> getRecentPosts(int count) throws SQLException, ClassNotFoundException {
+        ArrayList<Post> posts = new ArrayList<>();
+        Connection con = ConnectDB.connect();
+        String sql = "SELECT * FROM posts";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Post post = new Post();
+            post.setId(rs.getInt("id"));
+            post.setTitle(rs.getString("title"));
+            post.setSlug(rs.getString("slug"));
+            post.setContent(rs.getString("content"));
+            post.setCategoryId(rs.getInt("category_id"));
+            post.setThumbnail(rs.getString("thumbnail"));
+            post.setActive(rs.getBoolean("active"));
+            post.setCreatedAt(rs.getString("created_at"));
+            post.setUpdatedAt(rs.getString("updated_at"));
+            posts.add(post);
+        }
+        return posts;
+    }
+    public static ArrayList<Post> getCategoryPosts(String slug) throws SQLException, ClassNotFoundException {
+        ArrayList<Post> posts = new ArrayList<>();
+        Connection con = ConnectDB.connect();
+        String sql = "SELECT * FROM posts WHERE slug=? ORDER BY id DESC";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1,slug);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            Post post = new Post();
+            post.setId(rs.getInt("id"));
+            post.setTitle(rs.getString("title"));
+            post.setSlug(rs.getString("slug"));
+            post.setContent(rs.getString("content"));
+            post.setCategoryId(rs.getInt("category_id"));
+            post.setThumbnail(rs.getString("thumbnail"));
+            post.setActive(rs.getBoolean("active"));
+            post.setCreatedAt(rs.getString("created_at"));
+            post.setUpdatedAt(rs.getString("updated_at"));
+            posts.add(post);
+        }
+        return posts;
+    }
 
     public static void save(Post post) throws SQLException, ClassNotFoundException {
         Connection con = ConnectDB.connect();
