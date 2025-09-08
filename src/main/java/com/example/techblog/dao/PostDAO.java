@@ -12,22 +12,47 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PostDAO {
-    public static Category getCategory(int id) throws SQLException, ClassNotFoundException {
-        Category category = null;
+    public static Post getPost(int id) throws SQLException, ClassNotFoundException {
+        Post post=null;
         Connection con = ConnectDB.connect();
-        String sql = "SELECT * FROM category WHERE id=?";
+        String sql = "SELECT * FROM posts WHERE id=?";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
-            category = new Category(
-                    rs.getInt("id"),
-                    rs.getString("name"),
-                    rs.getString("slug"),
-                    rs.getString("created_at"),
-                    rs.getString("updated_at"));
+            post = new Post();
+            post.setId(rs.getInt("id"));
+            post.setTitle(rs.getString("title"));
+            post.setSlug(rs.getString("slug"));
+            post.setContent(rs.getString("content"));
+            post.setCategoryId(rs.getInt("category_id"));
+            post.setThumbnail(rs.getString("thumbnail"));
+            post.setActive(rs.getBoolean("active"));
+            post.setCreatedAt(rs.getString("created_at"));
+            post.setUpdatedAt(rs.getString("updated_at"));
         }
-        return category;
+        return post;
+    }
+    public static Post getPost(String slug) throws SQLException, ClassNotFoundException {
+        Post post=null;
+        Connection con = ConnectDB.connect();
+        String sql = "SELECT * FROM posts WHERE slug=?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setString(1, slug);
+        ResultSet rs = ps.executeQuery();
+        while (rs.next()) {
+            post = new Post();
+            post.setId(rs.getInt("id"));
+            post.setTitle(rs.getString("title"));
+            post.setSlug(rs.getString("slug"));
+            post.setContent(rs.getString("content"));
+            post.setCategoryId(rs.getInt("category_id"));
+            post.setThumbnail(rs.getString("thumbnail"));
+            post.setActive(rs.getBoolean("active"));
+            post.setCreatedAt(rs.getString("created_at"));
+            post.setUpdatedAt(rs.getString("updated_at"));
+        }
+        return post;
     }
 
     public static ArrayList<Post> getPosts() throws SQLException, ClassNotFoundException {
@@ -72,12 +97,12 @@ public class PostDAO {
         }
         return posts;
     }
-    public static ArrayList<Post> getCategoryPosts(String slug) throws SQLException, ClassNotFoundException {
+    public static ArrayList<Post> getCategoryPosts(int id) throws SQLException, ClassNotFoundException {
         ArrayList<Post> posts = new ArrayList<>();
         Connection con = ConnectDB.connect();
-        String sql = "SELECT * FROM posts WHERE slug=? ORDER BY id DESC";
+        String sql = "SELECT * FROM posts WHERE category_id=? ORDER BY id DESC";
         PreparedStatement ps = con.prepareStatement(sql);
-        ps.setString(1,slug);
+        ps.setInt(1,id);
         ResultSet rs = ps.executeQuery();
         while (rs.next()) {
             Post post = new Post();

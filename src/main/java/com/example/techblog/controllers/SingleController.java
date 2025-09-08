@@ -12,21 +12,17 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-@WebServlet("")
-public class HomeController extends HttpServlet {
+@WebServlet("/post")
+public class SingleController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-
+        String slug=req.getParameter("slug");
         try {
-            ArrayList<Post> posts= PostDAO.getPosts();
-            req.setAttribute("posts",posts);
-
-            for (Post post : posts) {
-                System.out.println(post.getTitle());
-            }
+            Post post= PostDAO.getPost(slug);
+            req.setAttribute("post",post);
         } catch (SQLException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-        req.getRequestDispatcher("index.jsp").forward(req, res);
+        req.getRequestDispatcher("single.jsp").forward(req, res);
     }
 }
